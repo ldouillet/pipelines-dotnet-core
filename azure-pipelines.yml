@@ -15,3 +15,17 @@ variables:
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
+
+- task: GitHubRelease@1
+  inputs:
+    gitHubConnection: 'github-com-ldouillet'
+    repositoryName: 'ldouillet/pipelines-dotnet-core'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'userSpecifiedTag'
+    tag: 'v$(Build.SourceVersion)'
+    title: 'v$(Build.SourceVersion)'
+    releaseNotesSource: 'inline'
+    isDraft: true
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'
